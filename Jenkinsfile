@@ -12,8 +12,8 @@ pipeline {
     }
 	
 	parameters {
-        choice(name: 'Run_Build_Deploy', choices: ['Yes', 'No'], description: 'Run the Build & Deploy stage?')
-		choice(name: 'Run_Pull_Test', choices: ['Yes', 'No'], description: 'Run the Pull & Test stage?')
+        choice(name: 'Run_Build_Deploy', choices: ['No', 'Yes'], description: 'Run the Build & Deploy stage?')
+		choice(name: 'Run_Pull_Test', choices: ['No', 'Yes'], description: 'Run the Pull & Test stage?')
     }
     stages {
         stage('Build & Deploy') {
