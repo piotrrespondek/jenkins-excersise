@@ -29,6 +29,7 @@ pipeline {
 				sh 'docker login -u AWS -p $(aws ecr get-login-password --region ${AWS_DEFAULT_REGION}) 161192472568.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com'
 				sh 'docker tag python-app:latest 161192472568.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/piotrrespondek:latest'
 				sh 'docker push 161192472568.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/piotrrespondek:latest'
+				sh 'docker rm --force app-container'
             }
         }
         stage('Pull & Test') {
