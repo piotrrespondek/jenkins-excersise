@@ -21,6 +21,7 @@ pipeline {
                 expression { env.CHANGE_ID != null || params.Run_Build_Deploy == 'Yes' }
             }
             steps {
+			    sh 'sudo chmod 777 /var/run/docker.sock'
                 sh 'docker build -t python-app .'
 				sh 'docker run --name app-container python-app'
 				sh 'docker cp app-container:/usr/app/artifact.txt .'
