@@ -40,18 +40,16 @@ pipeline {
             }
             steps {
                 script {
-					 def key = sh(
+					 def file = sh(
                         script: "aws s3 ls piotrrespondek --recursive | sort | tail -n 1 | awk '{print \$4}'",
                         returnStdout: true
                     ).trim()
-					sh 'aws s3 cp s3://piotrrespondek/${key} .'
-					def txtFile = findFiles(glob: '*.txt')
-					def size = fileSize(${txtFile})
-					if (size == 0) {
-                            echo "The file is empty"
-					}   
-						else {
-                            echo "The file is not empty"
+					sh 'aws s3 cp s3://piotrrespondek/${file} .'
+                    if (file.length() == 0) {
+                        echo "The file is empty"
+                    }
+					else {
+                         echo "The file is not empty"
                     }
 				}
             }
