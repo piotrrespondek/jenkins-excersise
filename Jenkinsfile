@@ -1,6 +1,10 @@
 pipeline {
     agent any
 	
+	triggers {
+        cron('H 3 * * *')
+    }
+	
 	environment {
         AWS_ACCESS_KEY_ID = credentials('aws-access-key')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
@@ -8,10 +12,9 @@ pipeline {
     }
 	
 	parameters {
-        choice(name: 'Run_Build_Deploy', choices: ['Yes', 'No'], description: 'Run the Build & Deploy stage?', defaultValue: 'No')
-		choice(name: 'Run_Pull_Test', choices: ['Yes', 'No'], description: 'Run the Pull & Test stage?', defaultValue: 'No')
+        choice(name: 'Run_Build_Deploy', choices: ['Yes', 'No'], description: 'Run the Build & Deploy stage?')
+		choice(name: 'Run_Pull_Test', choices: ['Yes', 'No'], description: 'Run the Pull & Test stage?')
     }
-    
     stages {
         stage('Build & Deploy') {
 		    when {
@@ -28,9 +31,6 @@ pipeline {
             }
         }
         stage('Pull & Test') {
-		    triggers {
-                cron('H 3 * * *')
-            }
 			when {
                 anyOf {
                     triggeredBy 'TimerTrigger'
