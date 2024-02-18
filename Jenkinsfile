@@ -26,7 +26,7 @@ pipeline {
 				sh 'docker run --name app-container python-app'
 				sh 'docker cp app-container:/usr/app/artifact.txt .'
 				sh 'aws s3 cp artifact.txt s3://piotrrespondek/artifact.txt'
-				sh 'docker login -u AWS -p $(aws ecr get-login-password --region ${AWS_DEFAULT_REGION}) 161192472568.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com'
+				sh 'aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin 161192472568.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com'
 				sh 'docker tag python-app:latest 161192472568.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/piotrrespondek:latest'
 				sh 'docker push 161192472568.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/piotrrespondek:latest'
 				sh 'docker rm --force app-container'
